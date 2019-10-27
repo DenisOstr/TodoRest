@@ -58,12 +58,14 @@ class Tasks(Resource):
         parser = reqparse.RequestParser()
         parser.add_argument("title")
         parser.add_argument("description")
+        parser.add_argument("done")
         params = parser.parse_args()
 
         for task in tasks:
             if id == task["id"]:
                 task["title"] = params["title"]
                 task["description"] = params["description"]
+                task["done"] = bool(params["done"])
 
                 return task, 200
 
@@ -71,7 +73,7 @@ class Tasks(Resource):
             "id": id,
             "title": params["title"],
             "description": params["description"],
-            "done": False
+            "done": params["done"]
         }
 
         tasks.append(task)
